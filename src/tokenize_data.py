@@ -19,7 +19,13 @@ class BPE_token(object):
             vocab_size=50000, 
             show_progress=True,  
             initial_alphabet=ByteLevel.alphabet(),
-            special_tokens=["\n"]
+            special_tokens=[
+                "<s>", 
+                "<pad>",
+                "</s>",
+                "<unk>",
+                "<mask>"
+            ]
         )
         self.tokenizer.train(paths, trainer)
     
