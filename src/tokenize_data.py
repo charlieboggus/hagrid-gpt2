@@ -19,15 +19,9 @@ class BPE_token(object):
             vocab_size=50000, 
             show_progress=True,  
             initial_alphabet=ByteLevel.alphabet(),
-            special_tokens=[
-                "<s>",
-                "<pad>",
-                "</s>",
-                "<unk>",
-                "<mask>"
-            ]
+            special_tokens=["\n"]
         )
-        self.tokenizer.train(trainer, paths)
+        self.tokenizer.train(paths, trainer)
     
     def save_tokenizer (self, location, prefix=None):
         if not os.path.exists(location):
@@ -35,8 +29,8 @@ class BPE_token(object):
         self.tokenizer.model.save(location, prefix)
 
 # Tokenize our data
-paths = [str(x) for x in Path("./data/working/").glob("**/*.txt")]
+paths = [str(x) for x in Path("./data/text/text/").glob("**/*.txt")]
 tk = BPE_token()
 tk.bpe_train(paths)
-save_path = 'tokenized'
+save_path = './data/tokenized_data/'
 tk.save_tokenizer(save_path)
