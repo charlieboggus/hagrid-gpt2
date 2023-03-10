@@ -13,14 +13,20 @@ for filename in files:
         wf.write(json.dumps(json_data))
     
     if isinstance(json_data[0], str):
-        messages = "\n".join(json_data)
+        # data is just a string array ["message1", "message2"]
+        messages = []
+        for obj in json_data:
+            message = obj
+            # message = "<s>" + obj + "</s>"
+            messages.append(message)
         with open(f'./data/text/text/{filename}.txt', "w") as wf:
-            wf.write(messages)
+            wf.write("\n".join(messages))
     else:
         # data looks like: [{ 'message': 'x', 'author': 'y' }, ... ]
         messages = []
         for obj in json_data:
             message = obj['message']
+            #message = "<s>" + obj['message'] + "</s>"
             messages.append(message)
         with open(f'./data/text/text/{filename}.txt', "w") as wf:
             wf.write("\n".join(messages))
