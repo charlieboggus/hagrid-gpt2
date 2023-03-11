@@ -7,6 +7,8 @@ def text_cleaner(text):
     text = text + ". "
     text = re.sub(r'.*\bhttps?:\/\/\S+.*', '', text)
     text = re.sub(r'[^a-zA-Z.,\s]', '', text)
+    if text == '.' or text == ' ' or text == '. ' or text == '  ':
+        text = ''
     # text = re.sub(r'<.*:[a-zA-Z0-9_]+:\d+>', '', text)
     # text = re.sub(r'<@\d+>', '', text)
     # text = "<s>" + text + "</s>"
