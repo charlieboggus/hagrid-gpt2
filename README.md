@@ -6,3 +6,7 @@ Code used to train text generation models using data gathered from [hagrids-ears
 
 - Markov Text Generation: Works decently well (could be better)
 - GPT-2 Text Generation: In development
+
+## Resources used in development:
+
+- Will add later
