@@ -1,16 +1,13 @@
 import spacy
-import re
 import markovify
-import nltk
-from nltk.corpus import gutenberg
 import warnings
 import os
-from  itertools import chain
+from datetime import datetime
+from itertools import chain
 warnings.filterwarnings('ignore')
 
 nlp = spacy.load('en_core_web_sm')
 data_path = './data/text/text/'
-output_file_path = './data/text/hagrid-hole-data-markov.txt'
 
 def read_file_data (file):
     with open (file, 'r')  as f:
@@ -28,15 +25,20 @@ def generate_model_from_data_files (files):
     final_model = markovify.combine(models)
     return final_model
 
+def generate_text_output_from_model (model):
+    sentences = []
+    for _ in range(50):
+        longSentence = f'>> {model.make_sentence()}\n'
+        shortSentence = f'>> {model.make_short_sentence(max_chars=100)}\n'
+        sentences.append(longSentence)
+        sentences.append(shortSentence)
+    with open(f'./out/out-{datetime.now()}.txt', 'a+') as wf:
+        for s in sentences:
+            wf.write(s)
+
 files = [f for f in os.listdir(data_path) if os.path.isfile(os.path.join(data_path, f))]
 model = generate_model_from_data_files(files)
-model_json = model.to_json()
+model_json = model.to_json()    # model can be reloaded with markovify.Text.from_json(model_json)
 with open('./saved_markov_model/markov_model.json', 'w') as wf:
     wf.write(model_json)
-
-for i in range(50):
-    sentence = model.make_sentence()
-    short = model.make_short_sentence(max_chars=100)
-    with open('out.txt', 'a+') as wf:
-        wf.write(f'>> {sentence}\n')
-        wf.write(f'>> {short}\n')
+generate_text_output_from_model(model)

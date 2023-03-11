@@ -3,4 +3,4 @@ data/
 saved_gpt2_model/
 saved_markov_model/
 .DS_Store
-out.txt
+out/
