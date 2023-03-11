@@ -1,36 +1,37 @@
-from pathlib import Path
 import spacy
 import re
 import markovify
 import nltk
+from nltk.corpus import gutenberg
 import warnings
+import os
+from  itertools import chain
 warnings.filterwarnings('ignore')
 
-def text_cleaner(text):
-    text = re.sub(r'--', ' ', text)
-    text = re.sub('[\[].*?[\]]', '', text)
-    text = re.sub(r'(\b|\s+\-?|^\-?)(\d+|\d*\.\d+)\b','', text)
-    text = ' '.join(text.split())
-    return text
-
-data_str = ''
-files = [str(x) for x in Path("./data/text/text/").glob("**/*.txt")]
-x = 0
-for file in files:
-    with open(file, 'r') as file:
-        data = file.read()
-    text = text_cleaner(data)
-    data_str += text + '\n'
-    if x == 20:
-        break
-    x = x + 1
-
-print(data_str[:100])
-
 nlp = spacy.load('en_core_web_sm')
-text_doc = nlp(data_str)
-text_sents = ' '.join([sent.text for sent in text_doc.sents if len(sent.text) > 1])
+data_path = './data/text/text/'
+output_file_path = './data/text/hagrid-hole-data-markov.txt'
 
-gen_1 = markovify.Text(text_sents, state_size=3)
-for i in range(5):
-    print(gen_1.make_sentence())
+def read_file_data (file):
+    with open (file, 'r')  as f:
+        raw_file_text = f.read()
+    return raw_file_text
+
+def generate_model_from_data_files (files):
+    models = []
+    for file in files:
+        file_text = read_file_data(data_path + file)
+        hagrid_text = "".join(chain.from_iterable(file_text))
+        if len(hagrid_text) < 100000:
+            model = markovify.Text(hagrid_text)
+            models.append(model)
+    final_model = markovify.combine(models)
+    return final_model
+
+files = [f for f in os.listdir(data_path) if os.path.isfile(os.path.join(data_path, f))]
+model = generate_model_from_data_files(files)
+for i in range(50):
+    sentence = model.make_sentence()
+    short = model.make_short_sentence(max_chars=100)
+    print(f'>> {sentence}')
+    print(f'>> {short}\n\n')
