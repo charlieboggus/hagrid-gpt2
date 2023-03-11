@@ -1,3 +1,12 @@
 # hagrid-gpt2
 
-Uses raw text data gathered by hagrids-ears-bot and trains a GPT2 text generation model
+Code used to train text generation models using data gathered from [hagrids-ears-bot](https://github.com/charlieboggus/hagrids-ears-bot)
+
+## Model States:
+
+- Markov Text Generation: Works decently well (could be better)
+- GPT-2 Text Generation: In development
+
+## Resources used in development:
+
+- Will add later
