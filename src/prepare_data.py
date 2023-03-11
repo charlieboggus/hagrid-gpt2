@@ -13,10 +13,9 @@ def text_cleaner(text):
     text = ' '.join(text.split())
     return text
 
-# Get every file in the raw data folder and store the filename in an array
-data_path = "./data/text/raw/"
-files = [f for f in os.listdir(data_path) if os.path.isfile(os.path.join(data_path, f))]
-
+# Iterate through every input file, clean the text data contained within, and write it to output files
+input_data_path = "./data/text/raw/"
+files = [f for f in os.listdir(input_data_path) if os.path.isfile(os.path.join(input_data_path, f))]
 for filename in files:
     rf = open(f'./data/text/raw/{filename}')
     json_data = json.load(rf) # this is either a string[] or a { message, author }[]
