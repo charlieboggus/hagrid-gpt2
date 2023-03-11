@@ -54,7 +54,7 @@ num_epoch = 3
 history = model.fit(dataset, epochs=num_epoch)
 
 # Save the model
-output_dir = './saved_model/'
+output_dir = './saved_gpt2_model/'
 if not os.path.exists(output_dir):
     os.mkdir(output_dir)
 
