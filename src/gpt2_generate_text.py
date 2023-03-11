@@ -1,10 +1,11 @@
 import os
 from transformers import GPT2Tokenizer, TFGPT2LMHeadModel
 
+gpt2_model_dir = './saved_gpt2_model/'
 
 # Load the saved model
-tokenizer = GPT2Tokenizer.from_pretrained('./saved_model/')
-model = TFGPT2LMHeadModel.from_pretrained('./saved_model/')
+tokenizer = GPT2Tokenizer.from_pretrained(gpt2_model_dir)
+model = TFGPT2LMHeadModel.from_pretrained(gpt2_model_dir)
 
 user_input_ids = tokenizer.encode(
     tokenizer.eos_token + input(">> User: "), 

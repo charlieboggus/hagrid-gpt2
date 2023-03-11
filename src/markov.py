@@ -30,6 +30,10 @@ def generate_model_from_data_files (files):
 
 files = [f for f in os.listdir(data_path) if os.path.isfile(os.path.join(data_path, f))]
 model = generate_model_from_data_files(files)
+model_json = model.to_json()
+with open('./saved_markov_model/markov_model.json', 'w') as wf:
+    wf.write(model_json)
+
 for i in range(50):
     sentence = model.make_sentence()
     short = model.make_short_sentence(max_chars=100)
