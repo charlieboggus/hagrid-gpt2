@@ -17,7 +17,7 @@ def text_cleaner(text):
 input_data_path = "./data/text/raw/"
 files = [f for f in os.listdir(input_data_path) if os.path.isfile(os.path.join(input_data_path, f))]
 for filename in files:
-    rf = open(f'./data/text/raw/{filename}')
+    rf = open(f'{input_data_path}{filename}')
     json_data = json.load(rf) # this is either a string[] or a { message, author }[]
     rf.close()
     with open(f'./data/text/json/{filename}.json', "w") as wf:

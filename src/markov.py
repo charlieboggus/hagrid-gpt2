@@ -33,5 +33,6 @@ model = generate_model_from_data_files(files)
 for i in range(50):
     sentence = model.make_sentence()
     short = model.make_short_sentence(max_chars=100)
-    print(f'>> {sentence}')
-    print(f'>> {short}\n\n')
+    with open('out.txt', 'a+') as wf:
+        wf.write(f'>> {sentence}\n')
+        wf.write(f'>> {short}\n')

@@ -2,3 +2,4 @@ data/
 *.sh
 saved_model/
 .DS_Store
+out.txt
