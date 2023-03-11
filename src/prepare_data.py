@@ -29,8 +29,6 @@ for filename in files:
         for obj in json_data:
             message = text_cleaner(obj)
             messages.append(message)
-        with open(f'./data/text/text/{filename}.txt', "w") as wf:
-            wf.write("\n".join(messages))
     else:
         # data looks like: [{ 'message': 'x', 'author': 'y' }, ... ]
         for obj in json_data:
