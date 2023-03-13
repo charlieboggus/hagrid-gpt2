@@ -5,8 +5,16 @@ import os
 from datetime import datetime
 from itertools import chain
 warnings.filterwarnings('ignore')
+nlp = spacy.load('en_core_web_md')
 
-nlp = spacy.load('en_core_web_sm')
+class POSifiedText (markovify.Text):
+    def word_split(self, sentence):
+        return ["::".join((word.orth_, word.pos_)) for word in nlp(sentence)]
+    
+    def word_join(self, words):
+        sentence = " ".join(word.split("::")[0] for word in words)
+        return sentence
+
 data_path = './data/text/text/'
 
 def read_file_data (file):
@@ -20,6 +28,7 @@ def generate_model_from_data_files (files):
         file_text = read_file_data(data_path + file)
         hagrid_text = "".join(chain.from_iterable(file_text))
         if len(hagrid_text) < 100000:
+            #model = POSifiedText(hagrid_text)
             model = markovify.Text(hagrid_text)
             models.append(model)
     final_model = markovify.combine(models)
