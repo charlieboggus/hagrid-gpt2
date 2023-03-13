@@ -2,13 +2,12 @@ import os
 import re
 import json
 
-# Modify this method to determine how the text we use to train our model is formatted
 def clean_emotes (text):
     result = ''
     words = text.split(' ')
     for word in words:
         tmp = word
-        if re.search(r'<:[a-zA-Z0-9]+:\d+>', tmp):
+        if re.search(r'<:[a-zA-Z0-9_]+:\d+>', tmp):
             tmp = tmp[2:]
             string = ''
             for c in tmp:
@@ -52,6 +51,7 @@ def clean_non_sentence_lines (text):
     else:
         return text
 
+# Modify this method to determine how the text we use to train our model is formatted
 def text_cleaner(text):
     result = text
     result = re.sub(r'.*\bhttps?:\/\/\S+.*', '', result)            # remove urls
@@ -61,7 +61,7 @@ def text_cleaner(text):
     result = clean_non_sentence_lines(result)                       # if a line is just . or blank after cleaning, get rid of it
     result = result + ". "                                          # end each sentence with a period so the model knows where a sentence ends
     result = re.sub(r'\s+\.', '.', result)                          # remove space before period at end of sentence (not sure why thats added..)
-    # text = "<s>" + text + "</s>"                                  # this is just for GPT-2 training data
+    # result = "<s>" + result + "</s>"                               # this is just for GPT-2 training data
     result = ' '.join(result.split())
     return result
 
